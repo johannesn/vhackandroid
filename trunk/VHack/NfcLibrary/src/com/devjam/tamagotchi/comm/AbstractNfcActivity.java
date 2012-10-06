@@ -1,4 +1,4 @@
-package org.vhack.vhacksvntest;
+package com.devjam.tamagotchi.comm;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
