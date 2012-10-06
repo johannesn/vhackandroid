@@ -33,12 +33,10 @@ public class Monster {
 	// Current event. Occurs randomly, and you have some time to react to that,
 	// otherwise something happens (bad probably).
 	private MonsterEvent mCurrentEvent;
+	private Game mGame;
 
 	public Monster(String name) {
-		mName = name;
-		mCauseOfDeath = EnumSet.noneOf(CauseOfDeath.class);
-
-		// TODO set other attributes
+		this(0, 0, 1, 0, 0, 0, 0, 0, name);
 	}
 
 	public Monster(int mHead, int mTorso, int mLegs, int mSkinColor,
@@ -53,24 +51,36 @@ public class Monster {
 		this.mTiredness = mTiredness;
 		this.mAgeRoundUnits = mAgeRoundUnits;
 		this.mName = mName;
+
+		mCauseOfDeath = EnumSet.noneOf(CauseOfDeath.class);
+	}
+
+	public void setGame(Game game) {
+		mGame = game;
 	}
 
 	public void feed() {
 		mHunger -= 5;
 		if (mHunger < 0)
 			mHunger = 0;
+
+		mGame.switchState(GameState.FEEDING);
 	}
 
 	public void play() {
 		mSadness -= 5;
 		if (mSadness < 0)
 			mSadness = 0;
+
+		mGame.switchState(GameState.PLAYING);
 	}
 
 	public void sleep() {
 		mTiredness -= 5;
 		if (mTiredness < 0)
 			mTiredness = 0;
+
+		mGame.switchState(GameState.SLEEPING);
 	}
 
 	/**
