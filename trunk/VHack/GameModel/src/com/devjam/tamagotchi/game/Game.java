@@ -11,6 +11,7 @@ public class Game {
 	private Thread mGameThread;
 	private Monster mMonster;
 	private List<MonsterView> mMonsterViews;
+	private GameState mGameState;
 
 	public Game() {
 		this("Standardmon", 1000);
@@ -19,8 +20,10 @@ public class Game {
 	public Game(String name, int gameSpeed) {
 		mMonster = new Monster(name);
 		mGameSpeed = gameSpeed;
-		mGameThread = new Thread(mGameRunning);
+		mGameState = GameState.RUNNING;
 		mMonsterViews = new LinkedList<MonsterView>();
+
+		mMonster.setGame(this);
 	}
 
 	public void addView(MonsterView monsterView) {
@@ -31,7 +34,11 @@ public class Game {
 	 * Starts game loop.
 	 */
 	public void start() {
-		mGameThread.start();
+		if (mGameThread == null || !mGameThread.isAlive()) {
+			mGameThread = new Thread(mGameRunning);
+			mGameThread.start();
+			mGameState = GameState.RUNNING;
+		}
 	}
 
 	/**
@@ -42,7 +49,7 @@ public class Game {
 		@Override
 		public void run() {
 			try {
-				while (!mMonster.isDead()) {
+				while (!mMonster.isDead() || Thread.interrupted()) {
 					// do game
 					mMonster.growOlder();
 
@@ -61,5 +68,23 @@ public class Game {
 
 	public Monster getMonster() {
 		return mMonster;
+	}
+
+	/**
+	 * Pauses game and saves state, so that correct animation can be shown.
+	 * 
+	 * @param gameState
+	 *            the state to switch to
+	 */
+	public void switchState(GameState gameState) {
+		mGameThread.interrupt();
+		mGameState = gameState;
+		// draw
+		for (MonsterView monsterView : mMonsterViews)
+			monsterView.refreshView();
+	}
+
+	public GameState getGameState() {
+		return mGameState;
 	}
 }
