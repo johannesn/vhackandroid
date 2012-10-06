@@ -2,6 +2,7 @@ package com.devjam.tamagotchi.game;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.devjam.tamagotchi.view.MonsterView;
 
@@ -19,6 +20,10 @@ public class Game {
 
 	public Game(String name, int gameSpeed) {
 		mMonster = new Monster(name);
+		Random rand = new Random(System.currentTimeMillis());
+		mMonster.setLegs(rand.nextInt(10));
+		mMonster.setTorso(rand.nextInt(12));
+		mMonster.setHead(rand.nextInt(12));
 		mGameSpeed = gameSpeed;
 		mGameState = GameState.RUNNING;
 		mMonsterViews = new LinkedList<MonsterView>();
