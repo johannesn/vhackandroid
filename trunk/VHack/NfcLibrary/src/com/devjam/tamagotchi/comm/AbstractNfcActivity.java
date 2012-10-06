@@ -133,4 +133,8 @@ public abstract class AbstractNfcActivity extends Activity {
 			}
 		}
 	}
+
+	public void actionSuccessful() {
+		thread = null;
+	}
 }

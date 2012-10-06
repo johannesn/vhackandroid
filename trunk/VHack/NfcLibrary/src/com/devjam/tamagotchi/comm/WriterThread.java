@@ -37,6 +37,7 @@ public class WriterThread extends Thread {
 				activity.runOnUiThread(new Runnable() {
 					public void run() {
 						activity.pairSuccessful(out_monster);
+						activity.actionSuccessful();
 					}
 				});
 				out.close();
