@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.devjam.tamagotchi.R;
 import com.devjam.tamagotchi.game.Game;
+import com.devjam.tamagotchi.game.LifeStage;
 import com.devjam.tamagotchi.game.Monster;
 
 public class TamagotchiAndroidView extends View {
@@ -23,6 +24,8 @@ public class TamagotchiAndroidView extends View {
 	private Bitmap torsos[];
 	private Bitmap leg[];
 	private Bitmap[] heads;
+	private Bitmap graveStone;
+	private Bitmap baby;
 	private Paint mPaint;
 	private Game mAnimationEndListener;
 	private Monster mMonster;
@@ -55,8 +58,12 @@ public class TamagotchiAndroidView extends View {
 	}
 
 	public void initialize() {
-		BitmapFactory.decodeResource(getResources(), R.drawable.head_1_a);
+
+		graveStone = BitmapFactory.decodeResource(getResources(),
+				R.drawable.rip);
 		heads = new Bitmap[12];
+		baby = BitmapFactory
+				.decodeResource(getResources(), R.drawable.baby_1_a);
 		heads[0] = BitmapFactory.decodeResource(getResources(),
 				R.drawable.head_1_a);
 		heads[1] = BitmapFactory.decodeResource(getResources(),
@@ -165,8 +172,6 @@ public class TamagotchiAndroidView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		Log.d(TAG, "Dens" + canvas.getDensity());
-
 		Bitmap headToDraw = heads[mMonster.getHead()];
 		Bitmap torsoToDraw = torsos[mMonster.getTorso()];
 		Bitmap legsToDraw = leg[mMonster.getLegs()];
@@ -175,24 +180,6 @@ public class TamagotchiAndroidView extends View {
 		if (counter == 0)
 			mMonsterAnimation = new BlinkAnimation(this, mMonster.getHead());
 
-		// if (animating) {
-		// whichHead = (whichHead + 1) % 4;
-		// switch (whichHead) {
-		// case 0:
-		// theHead = head2;
-		// break;
-		// case 1:
-		// theHead = head3;
-		// break;
-		// case 2:
-		// theHead = head2;
-		// break;
-		// case 3:
-		// theHead = head;
-		// animating = false;
-		// break;
-		// }
-		// }
 		if (mMonsterAnimation != null) {
 			headToDraw = mMonsterAnimation.getHead(headToDraw);
 			torsoToDraw = mMonsterAnimation.getTorso(torsoToDraw);
@@ -204,9 +191,19 @@ public class TamagotchiAndroidView extends View {
 			}
 		}
 
-		canvas.drawBitmap(headToDraw, 0, -100, mPaint);
-		canvas.drawBitmap(torsoToDraw, 0, 335, mPaint);
-		canvas.drawBitmap(legsToDraw, 0, 465, mPaint);
+		// draw based on life stage
+		if (mMonster.getLifestage() == LifeStage.DEAD) {
+			canvas.drawBitmap(graveStone, 0, 335, mPaint);
+		} else if (mMonster.getLifestage() == LifeStage.ADULT) {
+			canvas.drawBitmap(headToDraw, 0, -100, mPaint);
+			canvas.drawBitmap(torsoToDraw, 0, 335, mPaint);
+			canvas.drawBitmap(legsToDraw, 0, 465, mPaint);
+		} else if (mMonster.getLifestage() == LifeStage.ADOLESCENT) {
+			canvas.drawBitmap(headToDraw, 0, -100, mPaint);
+			canvas.drawBitmap(legsToDraw, 0, 335, mPaint);
+		} else if (mMonster.getLifestage() == LifeStage.BABY) {
+			canvas.drawBitmap(baby, 0, 335, mPaint);
+		}
 	}
 
 	public void startSleepingAnimation() {
