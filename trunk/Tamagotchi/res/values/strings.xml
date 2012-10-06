@@ -3,7 +3,7 @@
     <string name="app_name">CustomViewTest</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Little Monsters</string>
     <string name="text_hungry">Hungry</string>
     <string name="text_sad">Sad</string>
     <string name="text_tired">Tired</string>
