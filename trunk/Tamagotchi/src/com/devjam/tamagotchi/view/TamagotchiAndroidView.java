@@ -19,10 +19,7 @@ public class TamagotchiAndroidView extends View {
 	// public static final int MONSTERDENSITY = 360;
 	private static final String TAG = "MyCustomView";
 
-	private Bitmap head;
-	private Bitmap torso;
 	private Bitmap torsos[];
-	private Bitmap legs;
 	private Bitmap leg[];
 	private Bitmap[] heads;
 	private Paint mPaint;
@@ -46,7 +43,7 @@ public class TamagotchiAndroidView extends View {
 	}
 
 	public void initialize() {
-		head = BitmapFactory
+		BitmapFactory
 				.decodeResource(getResources(), R.drawable.head_1_a);
 		heads = new Bitmap[12];
 		heads[0] = BitmapFactory.decodeResource(getResources(),
@@ -74,7 +71,7 @@ public class TamagotchiAndroidView extends View {
 		heads[11] = BitmapFactory.decodeResource(getResources(),
 				R.drawable.head_12_a);
 
-		torso = BitmapFactory.decodeResource(getResources(), R.drawable.body_6);
+		BitmapFactory.decodeResource(getResources(), R.drawable.body_6);
 		torsos = new Bitmap[12];
 		torsos[0] = BitmapFactory.decodeResource(getResources(),
 				R.drawable.body_1);
@@ -101,7 +98,7 @@ public class TamagotchiAndroidView extends View {
 		torsos[11] = BitmapFactory.decodeResource(getResources(),
 				R.drawable.body_12);
 
-		legs = BitmapFactory.decodeResource(getResources(), R.drawable.foot_1);
+		BitmapFactory.decodeResource(getResources(), R.drawable.foot_1);
 		leg = new Bitmap[10];
 		leg[0] = BitmapFactory
 				.decodeResource(getResources(), R.drawable.foot_1);
