@@ -1,25 +1,18 @@
 package com.devjam.tamagotchi.comm;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import com.devjam.tamagotchi.game.Monster;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 
 @SuppressWarnings("deprecation")
 public abstract class AbstractNfcActivity extends Activity {
@@ -29,56 +22,38 @@ public abstract class AbstractNfcActivity extends Activity {
 	private String[][] techListsArray;
 	private boolean writeMode = false;
 
+	public static final int ACTION_PAIR = 0;
+
 	private static final int port = 12345;
 
-	private int msg = 1337;
 	private boolean paused = true;
+	private Monster monster;
+	private int action;
+	private Thread thread;
 
-	abstract protected void dataArrived(int msg);
+	abstract protected Monster pairWithMonster(Monster monster);
+
+	abstract protected void pairSuccessful(Monster monster);
+
+	public void requestPairing(Monster monster) {
+		this.monster = monster;
+		this.action = ACTION_PAIR;
+		setWriteMode(true);
+		startListening();
+	}
 
 	private void startListening() {
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					ServerSocket sock = new ServerSocket(port);
-					Socket conn = sock.accept();
-					DataInputStream in = new DataInputStream(
-							conn.getInputStream());
-					final int msg = in.readInt();
-					runOnUiThread(new Runnable() {
-						public void run() {
-							dataArrived(msg);
-							setWriteMode(false);
-						}
-					});
-					in.close();
-					conn.close();
-					sock.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+		if (thread == null) {
+			thread = new ListenThread(this, action, monster, port);
+			thread.start();
+		}
 	}
 
 	private void startWriting(final String ip) {
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					Log.d("IpAddress", ip);
-					Socket sock = new Socket(ip, port);
-					DataOutputStream out = new DataOutputStream(
-							sock.getOutputStream());
-					out.writeInt(msg);
-					out.close();
-					sock.close();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+		if (thread == null) {
+			thread = new WriterThread(this, ip, port);
+			thread.start();
+		}
 	}
 
 	@Override
@@ -116,12 +91,11 @@ public abstract class AbstractNfcActivity extends Activity {
 		super.onResume();
 		setup();
 		if (writeMode) {
-			nfcAdapter.enableForegroundNdefPush(this,
-					new NdefMessage(
-							new NdefRecord[] { new NdefRecord(
-									NdefRecord.TNF_WELL_KNOWN,
-									NdefRecord.RTD_TEXT, "Action".getBytes(),
-									getLocalIpAddress().getBytes()) }));
+			nfcAdapter.enableForegroundNdefPush(this, new NdefMessage(
+					new NdefRecord[] { new NdefRecord(
+							NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT,
+							"Action".getBytes(), Network
+									.getLocalIpAddress(this).getBytes()) }));
 			startListening();
 		} else {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent,
@@ -141,49 +115,22 @@ public abstract class AbstractNfcActivity extends Activity {
 		}
 	}
 
-	public int getMsg() {
-		return msg;
-	}
-
-	public void setMsg(int msg) {
-		this.msg = msg;
-	}
-
-	public boolean isWriteMode() {
-		return writeMode;
-	}
-
 	public void setWriteMode(boolean writeMode) {
 		this.writeMode = writeMode;
-		if (writeMode) {
-			if (!paused) {
+		if (!paused) {
+			if (writeMode) {
 				nfcAdapter.disableForegroundDispatch(this);
-				nfcAdapter.enableForegroundNdefPush(this, new NdefMessage(
-						new NdefRecord[] { new NdefRecord(
+				nfcAdapter.enableForegroundNdefPush(
+						this,
+						new NdefMessage(new NdefRecord[] { new NdefRecord(
 								NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT,
-								"Action".getBytes(), getLocalIpAddress()
-										.getBytes()) }));
-				startListening();
-			}
-		} else {
-			if (!paused) {
+								"Action".getBytes(), Network.getLocalIpAddress(
+										this).getBytes()) }));
+			} else {
 				nfcAdapter.enableForegroundDispatch(this, pendingIntent,
 						intentFiltersArray, techListsArray);
 				nfcAdapter.disableForegroundNdefPush(this);
 			}
 		}
-	}
-
-	private String getLocalIpAddress() {
-		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-		int ipAddress = wifiInfo.getIpAddress();
-		String ip = "";
-		for (int i = 0; i < 4; i++) {
-			int b = ipAddress & 0x000000FF;
-			ipAddress = ipAddress >> 8;
-			ip = ip + b + ".";
-		}
-		return ip.substring(0, ip.length() - 1);
 	}
 }
