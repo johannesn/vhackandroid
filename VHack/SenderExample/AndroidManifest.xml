@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.vhack.vhacksvntest"
+    package="com.devjam.tamagotchi.comm.test"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SenderActivity"
+            android:name="com.devjam.tamagotchi.comm.test.SenderActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >
             <intent-filter>
