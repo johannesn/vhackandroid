@@ -105,8 +105,10 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 
 		switch (mGame.getGameState()) {
 		case FEEDING:
+			mLilMonView.startFeedingAnimation();
 			break;
 		case PLAYING:
+			mLilMonView.startPlayingAnimation();
 			break;
 		case SLEEPING:
 			mLilMonView.startSleepingAnimation();
