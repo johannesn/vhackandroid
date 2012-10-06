@@ -8,7 +8,7 @@ import android.view.View;
 
 public class SleepingAnimation implements MonsterAnimation {
 
-	int max = 100;
+	int max = 50;
 	int counter = max;
 	int[] head = new int[max];
 	private View mView;
