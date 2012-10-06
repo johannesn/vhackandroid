@@ -17,10 +17,10 @@ public class SleepingAnimation implements MonsterAnimation {
 	public SleepingAnimation(View view) {
 		Bitmap sleepinghead = BitmapFactory.decodeResource(view.getResources(),
 				R.drawable.head_1_c);
-		sleepinghead.setDensity(TamagotchiAndroidView.MONSTERDENSITY);
+		// sleepinghead.setDensity(TamagotchiAndroidView.MONSTERDENSITY);
 		Bitmap sleepinghead2 = BitmapFactory.decodeResource(
 				view.getResources(), R.drawable.head_1_d);
-		sleepinghead2.setDensity(TamagotchiAndroidView.MONSTERDENSITY);
+		// sleepinghead2.setDensity(TamagotchiAndroidView.MONSTERDENSITY);
 
 		boolean first = true;
 		for (int i = 0; i < max; i++) {

@@ -16,7 +16,7 @@ import com.devjam.tamagotchi.game.Monster;
 public class TamagotchiAndroidView extends View {
 
 //	public static final int MONSTERDENSITY = 360;
-	public static final int MONSTERDENSITY = 360;
+//	public static final int MONSTERDENSITY = 360;
 	private static final String TAG = "MyCustomView";
 
 	private Bitmap head;
@@ -71,12 +71,12 @@ public class TamagotchiAndroidView extends View {
 		leg[9] = BitmapFactory.decodeResource(getResources(),
 				R.drawable.foot_10);
 
-		for (Bitmap b : leg)
-			b.setDensity(MONSTERDENSITY);
-
-		head.setDensity(MONSTERDENSITY);
-		torso.setDensity(MONSTERDENSITY);
-		legs.setDensity(MONSTERDENSITY);
+//		for (Bitmap b : leg)
+//			b.setDensity(MONSTERDENSITY);
+//
+//		head.setDensity(MONSTERDENSITY);
+//		torso.setDensity(MONSTERDENSITY);
+//		legs.setDensity(MONSTERDENSITY);
 
 		mPaint = new Paint();
 	}
