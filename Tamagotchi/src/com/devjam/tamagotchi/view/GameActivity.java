@@ -109,8 +109,8 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	private Runnable mUpdateHud = new Runnable() {
 
 		public void run() {
-			mHud.setText("Hungrig: " + mMonster.getHunger() + ", Traurig: "
-					+ mMonster.getSadness() + ", Müde: "
+			mHud.setText("Hungy: " + mMonster.getHunger() + ", Sad: "
+					+ mMonster.getSadness() + ", Tired: "
 					+ mMonster.getTiredness());
 		}
 	};
@@ -119,11 +119,10 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	protected Monster pairWithMonster(Monster monster) {
 		Random rand = new Random();
 		Monster child = new Monster("Helmut");
-		// TODO correct feet mapping
 		if (rand.nextBoolean()) {
-			child.setLegs(5);
+			child.setLegs(mMonster.getLegs());
 		} else {
-			child.setLegs(5);
+			child.setLegs(monster.getLegs());
 		}
 		if (rand.nextBoolean()) {
 			child.setTorso(mMonster.getTorso());
@@ -148,5 +147,6 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 		Toast.makeText(this, "Pairing Successful", Toast.LENGTH_LONG).show();
 		this.mMonster = monster;
 		monster.setGame(mGame);
+		mLilMonView.setMonster(monster);
 	}
 }
