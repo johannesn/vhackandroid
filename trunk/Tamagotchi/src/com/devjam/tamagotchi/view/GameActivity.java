@@ -2,6 +2,7 @@ package com.devjam.tamagotchi.view;
 
 import java.util.Random;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -19,25 +20,34 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	private TamagotchiAndroidView mLilMonView;
 	private Game mGame;
 	private Monster mMonster;
-	private TextView mHud;
 	private Thread mGameUiThread;
 	private Button mFeedButton;
 	private Button mPlayButon;
 	private Button mSleepButon;
+	private TextView mHungry;
+	private TextView mSad;
+	private TextView mTired;
 	private View mPairButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
+		Typeface myTypeface = Typeface.createFromAsset(getAssets(),
+				"fonts/BistroSketch.ttf");
 
 		// get ui stuff
 		mLilMonView = (TamagotchiAndroidView) findViewById(R.id.customview);
-		mHud = (TextView) findViewById(R.id.main_text);
 		mFeedButton = (Button) findViewById(R.id.btn_feed);
 		mPlayButon = (Button) findViewById(R.id.btn_play);
 		mSleepButon = (Button) findViewById(R.id.btn_sleep);
 		mPairButton = (Button) findViewById(R.id.btn_pair);
+		mSad = (TextView) findViewById(R.id.sadness);
+		mSad.setTypeface(myTypeface);
+		mTired = (TextView) findViewById(R.id.tired);
+		mTired.setTypeface(myTypeface);
+		mHungry = (TextView) findViewById(R.id.hungry);
+		mHungry.setTypeface(myTypeface);
 
 		// init game
 		mGame = new Game("Penismon", 4000);
@@ -109,9 +119,9 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	private Runnable mUpdateHud = new Runnable() {
 
 		public void run() {
-			mHud.setText("Hungy: " + mMonster.getHunger() + ", Sad: "
-					+ mMonster.getSadness() + ", Tired: "
-					+ mMonster.getTiredness());
+			mHungry.setText(Math.max(100 - mMonster.getHunger(), 0) + "");
+			mSad.setText(Math.max(100 - mMonster.getSadness(), 0) + "");
+			mTired.setText(Math.max(100 - mMonster.getTiredness(), 0) + "");
 		}
 	};
 
