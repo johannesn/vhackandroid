@@ -7,5 +7,6 @@
     <string name="btn_feed">Feed</string>
     <string name="btn_play">Play</string>
     <string name="btn_sleep">Sleep</string>
+    <string name="btn_pair">Pair</string>
 
 </resources>
