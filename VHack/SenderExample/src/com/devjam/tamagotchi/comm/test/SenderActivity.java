@@ -1,4 +1,6 @@
-package org.vhack.vhacksvntest;
+package com.devjam.tamagotchi.comm.test;
+
+import com.devjam.tamagotchi.comm.AbstractNfcActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
