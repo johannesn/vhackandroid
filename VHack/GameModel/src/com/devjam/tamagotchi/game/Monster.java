@@ -33,6 +33,7 @@ public class Monster {
 	// Current event. Occurs randomly, and you have some time to react to that,
 	// otherwise something happens (bad probably).
 	private MonsterEvent mCurrentEvent;
+	private MonsterEventListener monsterEventListener;
 	private Game mGame;
 
 	public Monster(String name) {
@@ -118,6 +119,9 @@ public class Monster {
 			int die = random.nextInt(6);
 			if (die == 5) {
 				mCurrentEvent = new ShitEvent(this);
+				if (monsterEventListener != null) {
+					monsterEventListener.onMonsterEvent(mCurrentEvent);
+				}
 			}
 		} else {
 			if (mCurrentEvent.isEventDue()) {
@@ -221,5 +225,10 @@ public class Monster {
 
 	public void setAgeRoundUnits(int mAgeRoundUnits) {
 		this.mAgeRoundUnits = mAgeRoundUnits;
+	}
+
+	public void setMonsterEventListener(
+			MonsterEventListener monsterEventListener) {
+		this.monsterEventListener = monsterEventListener;
 	}
 }
