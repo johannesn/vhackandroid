@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="42dp"
+        android:layout_alignParentTop="true"
         android:baselineAligned="true"
         android:orientation="horizontal" >
 
@@ -84,48 +85,54 @@
     <com.devjam.tamagotchi.view.TamagotchiAndroidView
         android:id="@+id/customview"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:layout_centerInParent="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="120px"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
         <ImageButton
             android:id="@+id/btn_feed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="120px"
+            android:layout_height="120px"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:onClick="onActionClick"
+            android:scaleType="fitCenter"
             android:src="@drawable/selector_feed" />
 
         <ImageButton
             android:id="@+id/btn_play"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="120px"
+            android:layout_height="120px"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:onClick="onActionClick"
+            android:scaleType="fitCenter"
             android:src="@drawable/selector_play" />
 
         <ImageButton
             android:id="@+id/btn_sleep"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="120px"
+            android:layout_height="120px"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:onClick="onActionClick"
+            android:scaleType="fitCenter"
             android:src="@drawable/selector_sleep" />
 
         <ImageButton
             android:id="@+id/btn_pair"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="120px"
+            android:layout_height="120px"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:onClick="onActionClick"
+            android:scaleType="fitCenter"
             android:src="@drawable/selector_pair" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
