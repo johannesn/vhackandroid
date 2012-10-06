@@ -41,6 +41,7 @@ public class ListenThread extends Thread {
 					public void run() {
 						activity.pairSuccessful(in_monster);
 						activity.setWriteMode(false);
+						activity.actionSuccessful();
 					}
 				});
 				out.close();
