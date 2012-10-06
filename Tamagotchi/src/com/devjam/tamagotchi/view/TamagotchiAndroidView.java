@@ -197,7 +197,7 @@ public class TamagotchiAndroidView extends View {
 	}
 
 	public void startSleepingAnimation() {
-		mMonsterAnimation = new SleepingAnimation(this);
+		mMonsterAnimation = new SleepingAnimation(this, mMonster.getHead());
 	}
 
 }
