@@ -36,10 +36,11 @@ public class ListenThread extends Thread {
 				// Send Monster to other device
 				MonsterFactory.writeMonster(out, monster);
 				DataInputStream in = new DataInputStream(conn.getInputStream());
-				final Monster in_monster = MonsterFactory.readMonster(in);
+//				final Monster in_monster = 
+				MonsterFactory.readMonster(in);
 				activity.runOnUiThread(new Runnable() {
 					public void run() {
-						activity.pairSuccessful(in_monster);
+//						activity.pairSuccessful(in_monster);
 						activity.setWriteMode(false);
 						activity.actionSuccessful();
 					}
