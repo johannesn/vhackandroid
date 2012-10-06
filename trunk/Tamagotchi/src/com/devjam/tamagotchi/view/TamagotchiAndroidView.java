@@ -15,6 +15,7 @@ import com.devjam.tamagotchi.game.Monster;
 
 public class TamagotchiAndroidView extends View {
 
+//	public static final int MONSTERDENSITY = 360;
 	public static final int MONSTERDENSITY = 360;
 	private static final String TAG = "MyCustomView";
 
