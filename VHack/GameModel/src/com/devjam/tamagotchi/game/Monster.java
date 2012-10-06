@@ -41,6 +41,20 @@ public class Monster {
 		// TODO set other attributes
 	}
 
+	public Monster(int mHead, int mTorso, int mLegs, int mSkinColor,
+			int mHunger, int mSadness, int mTiredness, int mAgeRoundUnits,
+			String mName) {
+		this.mHead = mHead;
+		this.mTorso = mTorso;
+		this.mLegs = mLegs;
+		this.mSkinColor = mSkinColor;
+		this.mHunger = mHunger;
+		this.mSadness = mSadness;
+		this.mTiredness = mTiredness;
+		this.mAgeRoundUnits = mAgeRoundUnits;
+		this.mName = mName;
+	}
+
 	public void feed() {
 		mHunger -= 5;
 		if (mHunger < 0)
@@ -157,5 +171,45 @@ public class Monster {
 		}
 
 		return false;
+	}
+
+	public int getHead() {
+		return mHead;
+	}
+
+	public void setHead(int mHead) {
+		this.mHead = mHead;
+	}
+
+	public int getTorso() {
+		return mTorso;
+	}
+
+	public void setTorso(int mTorso) {
+		this.mTorso = mTorso;
+	}
+
+	public int getLegs() {
+		return mLegs;
+	}
+
+	public void setLegs(int mLegs) {
+		this.mLegs = mLegs;
+	}
+
+	public int getSkinColor() {
+		return mSkinColor;
+	}
+
+	public void setSkinColor(int mSkinColor) {
+		this.mSkinColor = mSkinColor;
+	}
+
+	public int getAgeRoundUnits() {
+		return mAgeRoundUnits;
+	}
+
+	public void setAgeRoundUnits(int mAgeRoundUnits) {
+		this.mAgeRoundUnits = mAgeRoundUnits;
 	}
 }
