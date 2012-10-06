@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +15,12 @@ import com.devjam.tamagotchi.R;
 import com.devjam.tamagotchi.comm.AbstractNfcActivity;
 import com.devjam.tamagotchi.game.Game;
 import com.devjam.tamagotchi.game.Monster;
+import com.devjam.tamagotchi.game.MonsterEvent;
+import com.devjam.tamagotchi.game.MonsterEventListener;
+import com.devjam.tamagotchi.game.MonsterEventReaction;
 
-public class GameActivity extends AbstractNfcActivity implements MonsterView {
+public class GameActivity extends AbstractNfcActivity implements MonsterView,
+		MonsterEventListener {
 
 	private TamagotchiAndroidView mLilMonView;
 	private Game mGame;
@@ -28,6 +33,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	private TextView mHungry;
 	private TextView mSad;
 	private TextView mTired;
+	private ImageView mImageShit;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +55,13 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 		mHungry = (TextView) findViewById(R.id.hungry);
 		mHungry.setTypeface(myTypeface);
 
+		mImageShit = (ImageView) findViewById(R.id.imageShit);
+
 		// init game
 		mGame = new Game("Penismon", 4000);
 		mGame.addView(this);
 		mMonster = mGame.getMonster();
+		mMonster.setMonsterEventListener(this);
 		mGame.start();
 		mLilMonView.setAnimationEndListener(mGame);
 		mLilMonView.setMonster(mMonster);
@@ -95,6 +104,10 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 			mMonster.sleep();
 		else if (view == mPairButton)
 			requestPairing(mMonster);
+		else if (view == mImageShit) {
+			mMonster.reactToEvent(MonsterEventReaction.CLEAN);
+			mImageShit.setVisibility(View.INVISIBLE);
+		}
 
 		refreshView();
 	}
@@ -160,5 +173,15 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 		this.mMonster = monster;
 		monster.setGame(mGame);
 		mLilMonView.setMonster(monster);
+	}
+
+	@Override
+	public void onMonsterEvent(MonsterEvent monsterEvent) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mImageShit.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 }
