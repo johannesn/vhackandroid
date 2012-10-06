@@ -117,7 +117,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 
 	@Override
 	protected Monster pairWithMonster(Monster monster) {
-		Random rand = new Random();
+		Random rand = new Random(System.currentTimeMillis());
 		Monster child = new Monster("Helmut");
 		if (rand.nextBoolean()) {
 			child.setLegs(mMonster.getLegs());
