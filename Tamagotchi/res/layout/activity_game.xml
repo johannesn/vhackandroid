@@ -7,7 +7,8 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="48dp"
+        android:layout_height="42dp"
+        android:baselineAligned="true"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -20,22 +21,22 @@
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:contentDescription="hungry"
+                android:contentDescription="@string/text_hungry"
                 android:scaleType="fitCenter"
                 android:src="@drawable/food" />
 
             <TextView
                 android:id="@+id/hungry"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical"
-                android:text="100"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/initial_value"
                 android:textSize="42dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal" >
@@ -43,7 +44,7 @@
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:contentDescription="sadness"
+                android:contentDescription="@string/text_sad"
                 android:scaleType="fitCenter"
                 android:src="@drawable/play" />
 
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
-                android:text="100"
+                android:text="@string/initial_value"
                 android:textSize="42dp" />
         </LinearLayout>
 
@@ -66,7 +67,7 @@
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:contentDescription="tired"
+                android:contentDescription="@string/text_tired"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sleep" />
 
@@ -75,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
-                android:text="100"
+                android:text="@string/initial_value"
                 android:textSize="42dp" />
         </LinearLayout>
     </LinearLayout>
@@ -87,39 +88,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_feed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onActionClick"
-            android:text="@string/btn_feed" />
+            android:src="@drawable/selector_feed" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_play"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onActionClick"
-            android:text="@string/btn_play" />
+            android:src="@drawable/selector_play" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_sleep"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onActionClick"
-            android:text="@string/btn_sleep" />
+            android:src="@drawable/selector_sleep" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_pair"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onActionClick"
-            android:text="@string/btn_pair" />
+            android:src="@drawable/selector_pair" />
     </LinearLayout>
 
 </LinearLayout>
