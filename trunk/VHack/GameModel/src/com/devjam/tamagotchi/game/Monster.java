@@ -36,7 +36,7 @@ public class Monster {
 	private Game mGame;
 
 	public Monster(String name) {
-		this(0, 0, 1, 0, 0, 0, 0, 0, name);
+		this(2, 0, 1, 0, 0, 0, 0, 0, name);
 	}
 
 	public Monster(int mHead, int mTorso, int mLegs, int mSkinColor,
