@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +21,13 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	private Game mGame;
 	private Monster mMonster;
 	private Thread mGameUiThread;
-	private Button mFeedButton;
-	private Button mPlayButon;
-	private Button mSleepButon;
+	private ImageButton mFeedButton;
+	private ImageButton mPlayButton;
+	private ImageButton mSleepButton;
+	private ImageButton mPairButton;
 	private TextView mHungry;
 	private TextView mSad;
 	private TextView mTired;
-	private View mPairButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,10 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 
 		// get ui stuff
 		mLilMonView = (TamagotchiAndroidView) findViewById(R.id.customview);
-		mFeedButton = (Button) findViewById(R.id.btn_feed);
-		mPlayButon = (Button) findViewById(R.id.btn_play);
-		mSleepButon = (Button) findViewById(R.id.btn_sleep);
-		mPairButton = (Button) findViewById(R.id.btn_pair);
+		mFeedButton = (ImageButton) findViewById(R.id.btn_feed);
+		mPlayButton = (ImageButton) findViewById(R.id.btn_play);
+		mSleepButton = (ImageButton) findViewById(R.id.btn_sleep);
+		mPairButton = (ImageButton) findViewById(R.id.btn_pair);
 		mSad = (TextView) findViewById(R.id.sadness);
 		mSad.setTypeface(myTypeface);
 		mTired = (TextView) findViewById(R.id.tired);
@@ -89,9 +89,9 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView {
 	public void onActionClick(View view) {
 		if (view == mFeedButton)
 			mMonster.feed();
-		else if (view == mPlayButon)
+		else if (view == mPlayButton)
 			mMonster.play();
-		else if (view == mSleepButon)
+		else if (view == mSleepButton)
 			mMonster.sleep();
 		else if (view == mPairButton)
 			requestPairing(mMonster);
