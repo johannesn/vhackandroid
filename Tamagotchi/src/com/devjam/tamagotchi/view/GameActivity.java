@@ -2,6 +2,7 @@ package com.devjam.tamagotchi.view;
 
 import java.util.Random;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,12 +19,13 @@ import com.devjam.tamagotchi.game.Game;
 import com.devjam.tamagotchi.game.GameState;
 import com.devjam.tamagotchi.game.LifeStage;
 import com.devjam.tamagotchi.game.Monster;
+import com.devjam.tamagotchi.game.MonsterDeathListener;
 import com.devjam.tamagotchi.game.MonsterEvent;
 import com.devjam.tamagotchi.game.MonsterEventListener;
 import com.devjam.tamagotchi.game.MonsterEventReaction;
 
 public class GameActivity extends AbstractNfcActivity implements MonsterView,
-		MonsterEventListener {
+		MonsterEventListener, MonsterDeathListener {
 
 	private TamagotchiAndroidView mLilMonView;
 	private Game mGame;
@@ -38,7 +40,8 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 	private TextView mTired;
 	private ImageView mImageShit;
 	private MediaPlayer mMoopSound;
-	private MediaPlayer mChildrenSound;
+	private MediaPlayer mPairSound;
+	private Intent gameService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		mPlayButton = (ImageButton) findViewById(R.id.btn_play);
 		mSleepButton = (ImageButton) findViewById(R.id.btn_sleep);
 		mPairButton = (ImageButton) findViewById(R.id.btn_pair);
+		if (!super.isNfcSupported()) {
+			mPairButton.setVisibility(View.GONE);
+		}
 		mSad = (TextView) findViewById(R.id.sadness);
 		mSad.setTypeface(myTypeface);
 		mTired = (TextView) findViewById(R.id.tired);
@@ -63,18 +69,26 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 
 		mMoopSound = MediaPlayer.create(this, R.raw.moooop);
 		mMoopSound.setLooping(false);
-		mChildrenSound = MediaPlayer.create(this, R.raw.children);
-		mChildrenSound.setLooping(false);
+		mPairSound = MediaPlayer.create(this, R.raw.pair);
+		mPairSound.setLooping(false);
 
 		// init game
 		mGame = new Game("Penismon", 1000);
 		mGame.addView(this);
 		mMonster = mGame.getMonster();
+		mMonster.setName(getIntent().getStringExtra("name"));
 		mMonster.setMonsterEventListener(this);
-		mGame.start();
+		mMonster.setMonsterDeathListener(this);
+
+		GameService.mGame = mGame;
+		gameService = new Intent(this, GameService.class);
+		startService(gameService);
+
 		mLilMonView.setAnimationEndListener(mGame);
 		mLilMonView.setMonster(mMonster);
+	}
 
+	private void startUiUpdates() {
 		// start gui updating thread
 		mGameUiThread = new Thread(new Runnable() {
 
@@ -90,6 +104,22 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 			}
 		});
 		mGameUiThread.start();
+	}
+
+	private void stopUiUpdates() {
+		mGameUiThread.interrupt();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		startUiUpdates();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		stopUiUpdates();
 	}
 
 	@Override
@@ -195,7 +225,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		this.mMonster = monster;
 		monster.setGame(mGame);
 		mLilMonView.setMonster(monster);
-		mChildrenSound.start();
+		mPairSound.start();
 	}
 
 	@Override
@@ -212,5 +242,10 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 	public void actionRefused() {
 		Toast.makeText(this, "Pairing Refused", Toast.LENGTH_LONG).show();
 		mMoopSound.start();
+	}
+
+	@Override
+	public void onMonsterDeath() {
+		stopService(gameService);
 	}
 }
