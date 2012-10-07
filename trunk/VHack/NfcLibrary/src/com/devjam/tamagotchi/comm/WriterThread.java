@@ -33,13 +33,16 @@ public class WriterThread extends Thread {
 				DataOutputStream out = new DataOutputStream(
 						sock.getOutputStream());
 				final Monster out_monster = activity.pairWithMonster(monster);
-				MonsterFactory.writeMonster(out, out_monster);
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-						activity.pairSuccessful(out_monster);
-						activity.actionSuccessful();
-					}
-				});
+				out.writeBoolean(out_monster != null);
+				if (out_monster != null) {
+					MonsterFactory.writeMonster(out, out_monster);
+					activity.runOnUiThread(new Runnable() {
+						public void run() {
+							activity.pairSuccessful(out_monster);
+							activity.actionSuccessful();
+						}
+					});
+				}
 				out.close();
 			}
 			in.close();
