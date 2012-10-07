@@ -3,6 +3,7 @@ package com.devjam.tamagotchi.view;
 import java.util.Random;
 
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.devjam.tamagotchi.R;
 import com.devjam.tamagotchi.comm.AbstractNfcActivity;
 import com.devjam.tamagotchi.game.Game;
+import com.devjam.tamagotchi.game.GameState;
+import com.devjam.tamagotchi.game.LifeStage;
 import com.devjam.tamagotchi.game.Monster;
 import com.devjam.tamagotchi.game.MonsterEvent;
 import com.devjam.tamagotchi.game.MonsterEventListener;
@@ -34,6 +37,8 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 	private TextView mSad;
 	private TextView mTired;
 	private ImageView mImageShit;
+	private MediaPlayer mMoopSound;
+	private MediaPlayer mChildrenSound;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,12 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		mTired.setTypeface(myTypeface);
 		mHungry = (TextView) findViewById(R.id.hungry);
 		mHungry.setTypeface(myTypeface);
-
 		mImageShit = (ImageView) findViewById(R.id.imageShit);
+
+		mMoopSound = MediaPlayer.create(this, R.raw.moooop);
+		mMoopSound.setLooping(false);
+		mChildrenSound = MediaPlayer.create(this, R.raw.children);
+		mChildrenSound.setLooping(false);
 
 		// init game
 		mGame = new Game("Penismon", 1000);
@@ -96,17 +105,26 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 	 *            the button clicked
 	 */
 	public void onActionClick(View view) {
-		if (view == mFeedButton)
-			mMonster.feed();
-		else if (view == mPlayButton)
-			mMonster.play();
-		else if (view == mSleepButton)
-			mMonster.sleep();
-		else if (view == mPairButton)
-			requestPairing(mMonster);
-		else if (view == mImageShit) {
+		if (view == mImageShit) {
 			mMonster.reactToEvent(MonsterEventReaction.CLEAN);
 			mImageShit.setVisibility(View.INVISIBLE);
+		} else if (!mMonster.isDead()
+				&& mGame.getGameState() == GameState.RUNNING) {
+			if (view == mFeedButton) {
+				mMonster.feed();
+			} else if (view == mPlayButton) {
+				mMonster.play();
+			} else if (view == mSleepButton) {
+				mMonster.sleep();
+			} else if (view == mPairButton) {
+				if (mMonster.getLifestage() == LifeStage.ADULT) {
+					requestPairing(mMonster);
+				} else {
+					mMoopSound.start();
+				}
+			}
+		} else {
+			mMoopSound.start();
 		}
 
 		refreshView();
@@ -142,29 +160,33 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 
 	@Override
 	protected Monster pairWithMonster(Monster monster) {
-		Random rand = new Random(System.currentTimeMillis());
-		Monster child = new Monster("Helmut");
-		if (rand.nextBoolean()) {
-			child.setLegs(mMonster.getLegs());
+		if (mMonster.getLifestage() == LifeStage.ADULT) {
+			Random rand = new Random(System.currentTimeMillis());
+			Monster child = new Monster("Helmut");
+			if (rand.nextBoolean()) {
+				child.setLegs(mMonster.getLegs());
+			} else {
+				child.setLegs(monster.getLegs());
+			}
+			if (rand.nextBoolean()) {
+				child.setTorso(mMonster.getTorso());
+			} else {
+				child.setTorso(monster.getTorso());
+			}
+			if (rand.nextBoolean()) {
+				child.setHead(mMonster.getHead());
+			} else {
+				child.setHead(monster.getHead());
+			}
+			if (rand.nextBoolean()) {
+				child.setSkinColor(mMonster.getSkinColor());
+			} else {
+				child.setSkinColor(monster.getSkinColor());
+			}
+			return child;
 		} else {
-			child.setLegs(monster.getLegs());
+			return null;
 		}
-		if (rand.nextBoolean()) {
-			child.setTorso(mMonster.getTorso());
-		} else {
-			child.setTorso(monster.getTorso());
-		}
-		if (rand.nextBoolean()) {
-			child.setHead(mMonster.getHead());
-		} else {
-			child.setHead(monster.getHead());
-		}
-		if (rand.nextBoolean()) {
-			child.setSkinColor(mMonster.getSkinColor());
-		} else {
-			child.setSkinColor(monster.getSkinColor());
-		}
-		return child;
 	}
 
 	@Override
@@ -173,6 +195,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		this.mMonster = monster;
 		monster.setGame(mGame);
 		mLilMonView.setMonster(monster);
+		mChildrenSound.start();
 	}
 
 	@Override
@@ -183,5 +206,11 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 				mImageShit.setVisibility(View.VISIBLE);
 			}
 		});
+	}
+
+	@Override
+	public void actionRefused() {
+		Toast.makeText(this, "Pairing Refused", Toast.LENGTH_LONG).show();
+		mMoopSound.start();
 	}
 }
