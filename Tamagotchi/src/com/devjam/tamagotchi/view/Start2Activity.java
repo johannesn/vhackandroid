@@ -34,11 +34,12 @@ public class Start2Activity extends Activity {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.btnBegin:
-			Intent i = new Intent(this,GameActivity.class);
+			Intent i = new Intent(this, GameActivity.class);
 			String string = name.getText().toString();
-			i.putExtra("name", string!=null?string:"Helmut");
+			i.putExtra("name", string != null ? string : "Helmut");
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
+			finish();
 			break;
 		}
 	}
