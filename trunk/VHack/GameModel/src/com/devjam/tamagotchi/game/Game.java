@@ -15,7 +15,7 @@ public class Game {
 	private GameState mGameState;
 
 	public Game() {
-		this("Standardmon", 1000);
+		this("Standardmon", 100);
 	}
 
 	public Game(String name, int gameSpeed) {
