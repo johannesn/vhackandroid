@@ -153,7 +153,7 @@ public class TamagotchiAndroidView extends View {
 		mBiteSound.setLooping(false);
 		mSnoreSound = MediaPlayer.create(mContext, R.raw.snd_snore_noloop);
 		mSnoreSound.setLooping(false);
-		mPlaySound = MediaPlayer.create(mContext, R.raw.snd_cutebroop_noloop);
+		mPlaySound = MediaPlayer.create(mContext, R.raw.play);
 		mPlaySound.setLooping(false);
 	}
 

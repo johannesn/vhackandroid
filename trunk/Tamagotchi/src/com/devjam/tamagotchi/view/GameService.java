@@ -19,7 +19,7 @@ public class GameService extends Service {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		mGame.stop();
