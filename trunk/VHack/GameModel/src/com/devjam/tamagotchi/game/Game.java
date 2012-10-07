@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import android.util.Log;
+
 import com.devjam.tamagotchi.view.MonsterView;
 
 public class Game {
@@ -68,6 +70,8 @@ public class Game {
 					for (MonsterView monsterView : mMonsterViews)
 						monsterView.refreshView();
 
+					Log.d("GAME", "thread running...");
+
 					// wait
 					Thread.sleep(mGameSpeed);
 				}
@@ -96,5 +100,9 @@ public class Game {
 
 	public GameState getGameState() {
 		return mGameState;
+	}
+
+	public void setMonster(Monster monster) {
+		mMonster = monster;
 	}
 }
