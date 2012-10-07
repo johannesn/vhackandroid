@@ -7,7 +7,7 @@ public class Monster {
 
 	private static final int ROUNDUNITS_PER_DAY = 12;
 	private static final int ROUNDUNITS_TILL_DEAD = 100;
-	private static final int ROUNDUNITS_TILL_ADULT = 50;
+	private static final int ROUNDUNITS_TILL_ADULT = 1;
 	private static final int ROUNDUNITS_TILL_ADOLESCENT = 20;
 	private static final int MAX_NEED = 100;
 
@@ -53,7 +53,10 @@ public class Monster {
 		this.mTiredness = mTiredness;
 		this.mAgeRoundUnits = mAgeRoundUnits;
 		this.mName = mName;
-
+		if(mName==null){
+			this.mName = "Helmut";
+		}
+		
 		mCauseOfDeath = EnumSet.noneOf(CauseOfDeath.class);
 	}
 
@@ -91,7 +94,8 @@ public class Monster {
 	public void growOlder() {
 		// compute age
 		if (mAgeRoundUnits > ROUNDUNITS_TILL_DEAD) {
-			mLifeStage = LifeStage.DEAD;
+			// mLifeStage = LifeStage.DEAD;
+			die(CauseOfDeath.AGE);
 		} else if (mAgeRoundUnits > ROUNDUNITS_TILL_ADULT) {
 			mLifeStage = LifeStage.ADULT;
 		} else if (mAgeRoundUnits > ROUNDUNITS_TILL_ADOLESCENT) {
@@ -175,8 +179,8 @@ public class Monster {
 	}
 
 	public void die(CauseOfDeath cause) {
-		mLifeStage = LifeStage.DEAD;
-		mCauseOfDeath.add(cause);
+		// mLifeStage = LifeStage.DEAD;
+		// mCauseOfDeath.add(cause);
 		if(monsterDeathListener!=null){
 			monsterDeathListener.onMonsterDeath();
 		}
@@ -187,7 +191,7 @@ public class Monster {
 	}
 
 	public boolean reactToEvent(MonsterEventReaction reaction) {
-		if (mCurrentEvent.onReact(reaction)) {
+		if (mCurrentEvent != null && mCurrentEvent.onReact(reaction)) {
 			mCurrentEvent = null;
 			return true;
 		}
