@@ -58,7 +58,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		mImageShit = (ImageView) findViewById(R.id.imageShit);
 
 		// init game
-		mGame = new Game("Penismon", 4000);
+		mGame = new Game("Penismon", 1000);
 		mGame.addView(this);
 		mMonster = mGame.getMonster();
 		mMonster.setMonsterEventListener(this);
