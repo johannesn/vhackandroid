@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devjam.tamagotchi.PairingResultActivity;
 import com.devjam.tamagotchi.R;
 import com.devjam.tamagotchi.comm.AbstractNfcActivity;
 import com.devjam.tamagotchi.game.Game;
@@ -224,8 +225,13 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		Toast.makeText(this, "Pairing Successful", Toast.LENGTH_LONG).show();
 		this.mMonster = monster;
 		monster.setGame(mGame);
+		mGame.setMonster(monster);
 		mLilMonView.setMonster(monster);
 		mPairSound.start();
+
+		PairingResultActivity.monster = monster;
+		Intent intent = new Intent(this, PairingResultActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
