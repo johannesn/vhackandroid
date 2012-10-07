@@ -45,17 +45,19 @@ public abstract class AbstractNfcActivity extends Activity {
 	}
 
 	private void startListening() {
-		if (thread == null) {
-			thread = new ListenThread(this, action, monster, port);
-			thread.start();
+		if (thread != null && thread.isAlive()) {
+			thread.interrupt();
 		}
+		thread = new ListenThread(this, action, monster, port);
+		thread.start();
 	}
 
 	private void startWriting(final String ip) {
-		if (thread == null) {
-			thread = new WriterThread(this, ip, port);
-			thread.start();
+		if (thread != null && thread.isAlive()) {
+			thread.interrupt();
 		}
+		thread = new WriterThread(this, ip, port);
+		thread.start();
 	}
 
 	@Override
@@ -149,5 +151,9 @@ public abstract class AbstractNfcActivity extends Activity {
 
 	public boolean isNfcSupported() {
 		return nfcAdapter != null;
+	}
+
+	public boolean getWriteMode() {
+		return writeMode;
 	}
 }

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import com.devjam.tamagotchi.game.Monster;
 
@@ -28,7 +29,18 @@ public class ListenThread extends Thread {
 	public void run() {
 		try {
 			ServerSocket sock = new ServerSocket(port);
-			Socket conn = sock.accept();
+			sock.setSoTimeout(1000);
+			Socket conn = null;
+			do {
+				try {
+					conn = sock.accept();
+				} catch (SocketTimeoutException e) {
+					if (isInterrupted()) {
+						sock.close();
+						return;
+					}
+				}
+			} while (conn == null);
 			DataOutputStream out = new DataOutputStream(conn.getOutputStream());
 			// Write desired Action to other device
 			out.writeInt(action);
