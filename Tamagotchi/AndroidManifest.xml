@@ -39,6 +39,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".PairingResultActivity"
+			android:screenOrientation="portrait" 
+            android:label="@string/hello_world" >
+            
+        </activity>
+
         <activity
             android:name=".view.Start2Activity"
             android:label="@string/title_activity_start2"
