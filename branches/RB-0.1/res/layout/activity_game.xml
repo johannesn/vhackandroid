@@ -1,0 +1,151 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:baselineAligned="true"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="@string/text_hungry"
+                android:scaleType="fitCenter"
+                android:src="@drawable/food" />
+
+            <TextView
+                android:id="@+id/hungry"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/initial_value"
+                android:textSize="42dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="@string/text_sad"
+                android:scaleType="fitCenter"
+                android:src="@drawable/play" />
+
+            <TextView
+                android:id="@+id/sadness"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:text="@string/initial_value"
+                android:textSize="42dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="@string/text_tired"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sleep" />
+
+            <TextView
+                android:id="@+id/tired"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:text="@string/initial_value"
+                android:textSize="42dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.devjam.tamagotchi.view.TamagotchiAndroidView
+        android:id="@+id/customview"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_feed"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onActionClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_feed" />
+
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onActionClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_play" />
+
+        <ImageButton
+            android:id="@+id/btn_sleep"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onActionClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_sleep" />
+
+        <ImageButton
+            android:id="@+id/btn_pair"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onActionClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_pair" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageShit"
+        android:layout_width="50px"
+        android:layout_height="65px"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/shit"
+        android:onClick="onActionClick"
+        android:visibility="invisible" />
+
+</RelativeLayout>
