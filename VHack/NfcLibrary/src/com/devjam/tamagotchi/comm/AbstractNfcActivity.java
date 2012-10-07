@@ -35,6 +35,8 @@ public abstract class AbstractNfcActivity extends Activity {
 
 	abstract protected void pairSuccessful(Monster monster);
 
+	abstract public void actionRefused();
+
 	public void requestPairing(Monster monster) {
 		this.monster = monster;
 		this.action = ACTION_PAIR;

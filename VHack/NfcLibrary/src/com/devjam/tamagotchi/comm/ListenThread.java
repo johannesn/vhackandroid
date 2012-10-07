@@ -36,15 +36,26 @@ public class ListenThread extends Thread {
 				// Send Monster to other device
 				MonsterFactory.writeMonster(out, monster);
 				DataInputStream in = new DataInputStream(conn.getInputStream());
-//				final Monster in_monster = 
-				MonsterFactory.readMonster(in);
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-//						activity.pairSuccessful(in_monster);
-						activity.setWriteMode(false);
-						activity.actionSuccessful();
-					}
-				});
+				boolean pair_accepted = in.readBoolean();
+				// final Monster in_monster =
+				if (pair_accepted) {
+					MonsterFactory.readMonster(in);
+					activity.runOnUiThread(new Runnable() {
+						public void run() {
+							// activity.pairSuccessful(in_monster);
+							activity.setWriteMode(false);
+							activity.actionSuccessful();
+						}
+					});
+				} else {
+					activity.runOnUiThread(new Runnable() {
+						public void run() {
+							// activity.pairSuccessful(in_monster);
+							activity.setWriteMode(false);
+							activity.actionRefused();
+						}
+					});
+				}
 				out.close();
 				in.close();
 			}
