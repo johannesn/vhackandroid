@@ -116,7 +116,7 @@ public class Monster {
 		// throw dice for events
 		if (mCurrentEvent == null) {
 			Random random = new Random(System.currentTimeMillis());
-			int die = random.nextInt(6);
+			int die = random.nextInt(20);
 			if (die == 5) {
 				mCurrentEvent = new ShitEvent(this);
 				if (monsterEventListener != null) {
