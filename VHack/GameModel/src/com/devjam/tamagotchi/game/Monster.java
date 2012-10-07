@@ -9,7 +9,7 @@ public class Monster {
 	private static final int ROUNDUNITS_TILL_DEAD = 100;
 	private static final int ROUNDUNITS_TILL_ADULT = 50;
 	private static final int ROUNDUNITS_TILL_ADOLESCENT = 20;
-	private static final int MAX_NEED = 10;
+	private static final int MAX_NEED = 100;
 
 	// looks
 	int mHead;
@@ -61,7 +61,7 @@ public class Monster {
 	}
 
 	public void feed() {
-		mHunger -= 5;
+		mHunger -= 10;
 		if (mHunger < 0)
 			mHunger = 0;
 
@@ -69,7 +69,7 @@ public class Monster {
 	}
 
 	public void play() {
-		mSadness -= 5;
+		mSadness -= 20;
 		if (mSadness < 0)
 			mSadness = 0;
 
@@ -77,7 +77,7 @@ public class Monster {
 	}
 
 	public void sleep() {
-		mTiredness -= 5;
+		mTiredness -= 30;
 		if (mTiredness < 0)
 			mTiredness = 0;
 

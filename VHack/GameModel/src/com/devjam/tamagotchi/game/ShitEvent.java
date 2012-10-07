@@ -3,7 +3,7 @@ package com.devjam.tamagotchi.game;
 public class ShitEvent implements MonsterEvent {
 
 	// how many rounds does this event count?
-	private static final int TIME_TO_LIVE = 5;
+	private static final int TIME_TO_LIVE = 20;
 
 	private int mCounter;
 	private Monster mMonster;
