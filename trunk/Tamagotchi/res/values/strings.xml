@@ -7,6 +7,8 @@
     <string name="text_hungry">Hungry</string>
     <string name="text_sad">Sad</string>
     <string name="text_tired">Tired</string>
-    <string name="initial_value">100</string>   
+    <string name="initial_value">100</string>
+    <string name="title_activity_start">Little Monsters</string>
+    <string name="title_activity_start2">Little Monsters</string>
 
 </resources>

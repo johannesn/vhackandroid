@@ -34,6 +34,7 @@ public class Monster {
 	// otherwise something happens (bad probably).
 	private MonsterEvent mCurrentEvent;
 	private MonsterEventListener monsterEventListener;
+	private MonsterDeathListener monsterDeathListener;
 	private Game mGame;
 
 	public Monster(String name) {
@@ -161,6 +162,10 @@ public class Monster {
 		return mName;
 	}
 
+	public void setName(String name) {
+		this.mName = name;
+	}
+
 	public boolean isDead() {
 		return mLifeStage == LifeStage.DEAD;
 	}
@@ -172,6 +177,9 @@ public class Monster {
 	public void die(CauseOfDeath cause) {
 		mLifeStage = LifeStage.DEAD;
 		mCauseOfDeath.add(cause);
+		if(monsterDeathListener!=null){
+			monsterDeathListener.onMonsterDeath();
+		}
 	}
 
 	public MonsterEvent getCurrentEvent() {
@@ -230,5 +238,9 @@ public class Monster {
 	public void setMonsterEventListener(
 			MonsterEventListener monsterEventListener) {
 		this.monsterEventListener = monsterEventListener;
+	}
+
+	public void setMonsterDeathListener(MonsterDeathListener monsterDeathListener) {
+		this.monsterDeathListener = monsterDeathListener;
 	}
 }

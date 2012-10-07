@@ -68,42 +68,49 @@ public abstract class AbstractNfcActivity extends Activity {
 	private void setup() {
 		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-		pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-				getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		if (nfcAdapter != null) {
+			pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+					getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
-		IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-		try {
-			ndef.addDataType("text/plain");
-		} catch (MalformedMimeTypeException e) {
-			e.printStackTrace();
+			IntentFilter ndef = new IntentFilter(
+					NfcAdapter.ACTION_NDEF_DISCOVERED);
+			try {
+				ndef.addDataType("text/plain");
+			} catch (MalformedMimeTypeException e) {
+				e.printStackTrace();
+			}
+			intentFiltersArray = new IntentFilter[] { ndef };
+			techListsArray = new String[][] { new String[] { Ndef.class
+					.getName() } };
 		}
-		intentFiltersArray = new IntentFilter[] { ndef };
-		techListsArray = new String[][] { new String[] { Ndef.class.getName() } };
 	}
 
 	public void onPause() {
 		super.onPause();
-		nfcAdapter.disableForegroundNdefPush(this);
-		nfcAdapter.disableForegroundDispatch(this);
-
+		if (nfcAdapter != null) {
+			nfcAdapter.disableForegroundNdefPush(this);
+			nfcAdapter.disableForegroundDispatch(this);
+		}
 		paused = true;
 	}
 
 	public void onResume() {
 		super.onResume();
 		setup();
-		if (writeMode) {
-			nfcAdapter.enableForegroundNdefPush(this, new NdefMessage(
-					new NdefRecord[] { new NdefRecord(
-							NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT,
-							"Action".getBytes(), Network
-									.getLocalIpAddress(this).getBytes()) }));
-			startListening();
-		} else {
-			nfcAdapter.enableForegroundDispatch(this, pendingIntent,
-					intentFiltersArray, techListsArray);
+		if (nfcAdapter != null) {
+			if (writeMode) {
+				nfcAdapter.enableForegroundNdefPush(
+						this,
+						new NdefMessage(new NdefRecord[] { new NdefRecord(
+								NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT,
+								"Action".getBytes(), Network.getLocalIpAddress(
+										this).getBytes()) }));
+				startListening();
+			} else {
+				nfcAdapter.enableForegroundDispatch(this, pendingIntent,
+						intentFiltersArray, techListsArray);
+			}
 		}
-
 		paused = false;
 	}
 
@@ -119,7 +126,7 @@ public abstract class AbstractNfcActivity extends Activity {
 
 	public void setWriteMode(boolean writeMode) {
 		this.writeMode = writeMode;
-		if (!paused) {
+		if (!paused && nfcAdapter != null) {
 			if (writeMode) {
 				nfcAdapter.disableForegroundDispatch(this);
 				nfcAdapter.enableForegroundNdefPush(
@@ -138,5 +145,9 @@ public abstract class AbstractNfcActivity extends Activity {
 
 	public void actionSuccessful() {
 		thread = null;
+	}
+
+	public boolean isNfcSupported() {
+		return nfcAdapter != null;
 	}
 }

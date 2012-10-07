@@ -45,6 +45,12 @@ public class Game {
 			mGameState = GameState.RUNNING;
 		}
 	}
+	
+	public void stop() {
+		if (mGameThread != null && mGameThread.isAlive()) {
+			mGameThread.interrupt();
+		}
+	}
 
 	/**
 	 * Game loop.
