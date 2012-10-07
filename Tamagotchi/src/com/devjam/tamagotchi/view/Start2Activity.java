@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -34,7 +35,8 @@ public class Start2Activity extends Activity {
 		switch (view.getId()) {
 		case R.id.btnBegin:
 			Intent i = new Intent(this,GameActivity.class);
-			i.putExtra("name", name.getText());
+			Editable string = name.getText();
+			i.putExtra("name", string!=null?string:"");
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
 			break;
