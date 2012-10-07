@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 	private MediaPlayer mMoopSound;
 	private MediaPlayer mPairSound;
 	private Intent gameService;
+	private MediaPlayer mChildrenSound;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,12 +74,15 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		mMoopSound.setLooping(false);
 		mPairSound = MediaPlayer.create(this, R.raw.pair);
 		mPairSound.setLooping(false);
+		mChildrenSound = MediaPlayer.create(this, R.raw.children);
+		mChildrenSound.setLooping(false);
 
 		// init game
 		mGame = new Game("Penismon", 1000);
 		mGame.addView(this);
 		mMonster = mGame.getMonster();
-		mMonster.setName(getIntent().getStringExtra("name"));
+		String name = getIntent().getStringExtra("name");
+		mMonster.setName(name != null ? name : "Helmut");
 		mMonster.setMonsterEventListener(this);
 		mMonster.setMonsterDeathListener(this);
 
@@ -148,8 +153,13 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 			} else if (view == mSleepButton) {
 				mMonster.sleep();
 			} else if (view == mPairButton) {
-				if (mMonster.getLifestage() == LifeStage.ADULT) {
+				if (mMonster.getLifestage() == LifeStage.ADULT
+						&& !getWriteMode()) {
 					requestPairing(mMonster);
+					mPairSound.start();
+				} else if (getWriteMode()) {
+					mMoopSound.start();
+					setWriteMode(false);
 				} else {
 					mMoopSound.start();
 				}
@@ -227,7 +237,7 @@ public class GameActivity extends AbstractNfcActivity implements MonsterView,
 		monster.setGame(mGame);
 		mGame.setMonster(monster);
 		mLilMonView.setMonster(monster);
-		mPairSound.start();
+		mChildrenSound.start();
 
 		PairingResultActivity.monster = monster;
 		Intent intent = new Intent(this, PairingResultActivity.class);
