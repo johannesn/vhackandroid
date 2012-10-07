@@ -66,7 +66,6 @@ public class Game {
 					Thread.sleep(mGameSpeed);
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 	};
