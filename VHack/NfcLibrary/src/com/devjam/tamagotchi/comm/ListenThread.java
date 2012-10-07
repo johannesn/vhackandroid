@@ -53,6 +53,7 @@ public class ListenThread extends Thread {
 							// activity.pairSuccessful(in_monster);
 							activity.setWriteMode(false);
 							activity.actionRefused();
+							activity.actionSuccessful();
 						}
 					});
 				}
