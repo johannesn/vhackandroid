@@ -35,8 +35,8 @@ public class Start2Activity extends Activity {
 		switch (view.getId()) {
 		case R.id.btnBegin:
 			Intent i = new Intent(this,GameActivity.class);
-			Editable string = name.getText();
-			i.putExtra("name", string!=null?string:"");
+			String string = name.getText().toString();
+			i.putExtra("name", string!=null?string:"Helmut");
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
 			break;
